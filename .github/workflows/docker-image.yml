@@ -25,6 +25,5 @@ jobs:
 
     - name: Build OctoPetShop web container
       run: | 
-        docker build . --file OctopusSamples.OctoPetShop.Web/dockerfile --tag octopetshop-web-enterprise:$PACKAGE_VERSION
-        docker login --username ${{ secrets.DOCKERHUB_SAMPLES_USERNAME }} --password ${{ secrets.DOCKERHUB_SAMPLES_PASSWORD }}
-        docker push octopetshop-web-enterprise:$PACKAGE_VERSION
+        docker build . --file OctopusSamples.OctoPetShop.Web/dockerfile --tag octopussamples/octopetshop-web-enterprise:$PACKAGE_VERSION
+        docker push octopussamples/octopetshop-web-enterprise:$PACKAGE_VERSION
