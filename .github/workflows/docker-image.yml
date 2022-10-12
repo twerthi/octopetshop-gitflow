@@ -23,12 +23,7 @@ jobs:
         username: ${{ secrets.DOCKERHUB_SAMPLES_USERNAME }}
         password: ${{ secrets.DOCKERHUB_SAMPLES_PASSWORD }}
 
-    - name: Build image and push to Docker Hub and GitHub Container Registry
-      uses: docker/build-push-action@v2
-      with:
-        # relative path to the place where source code with Dockerfile is located
-        context: ./OctopusSamples.OctoPetShop.Web/dockerfile
-        # Note: tags has to be all lower-case
-        tags: |
-          octopetshop-web-enterprise:$PACKAGE_VERSION 
-      
+    - name: Build OctoPetShop web container
+      run: | 
+        docker build . --file OctopusSamples.OctoPetShop.Web/dockerfile --tag octopetshop-web-enterprise:$PACKAGE_VERSION
+        docker push octopetshop-web-enterprise:$PACKAGE_VERSION
