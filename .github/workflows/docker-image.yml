@@ -13,6 +13,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }} # API key used with Octopus Deploy instance
+      OCTOPUS_HOST: ${{ secrets.OCTOPUS_SERVER_URL }}       # address of Octopus Deploy instance (i.e. https://demo.octopus.app)
+      OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE_NAME }}
+
     steps:
     - uses: actions/checkout@v3
     - name: Set Version
@@ -43,4 +48,14 @@ jobs:
       run: | 
         docker build ./OctopusSamples.OctoPetShop.Database --file ./OctopusSamples.OctoPetShop.Database/dockerfile --tag octopussamples/octopetshop-database-enterprise:$PACKAGE_VERSION
         docker push octopussamples/octopetshop-database-enterprise:$PACKAGE_VERSION
+        
+    - name: Push build information
+      uses: OctopusDeploy/push-build-information-action@v1
+      with:
+        packages: |
+          'octopetshop-web-enterprise'
+          'octopetshop-productservice-enterprise`
+          'octopetshop-shoppingcartservice-enterprise'
+          'octopetshop-database-enterprise'
+        version: $PACKAGE_VERSION
 
