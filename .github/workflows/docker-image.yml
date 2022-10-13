@@ -58,7 +58,12 @@ jobs:
           octopetshop-shoppingcartservice-enterprise
           octopetshop-database-enterprise
         version: ${{ env.PACKAGE_VERSION }}
-        
+
+    - name: Install Octopus CLI
+      uses: OctopusDeploy/install-octopus-cli-action@v1
+      with:
+        version: latest
+
     - name: Create OctoPetShop release
       uses: OctopusDeploy/create-release-action@v2
       with:
