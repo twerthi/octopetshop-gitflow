@@ -57,5 +57,5 @@ jobs:
           octopetshop-productservice-enterprise
           octopetshop-shoppingcartservice-enterprise
           octopetshop-database-enterprise
-        version: ${{ PACKAGE_VERSION }}
+        version: ${{ $PACKAGE_VERSION }}
 
