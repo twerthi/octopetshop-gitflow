@@ -58,4 +58,9 @@ jobs:
           octopetshop-shoppingcartservice-enterprise
           octopetshop-database-enterprise
         version: ${{ env.PACKAGE_VERSION }}
+        
+    - name: Create OctoPetShop release
+      uses: OctopusDeploy/create-release-action@v2
+      with:
+        project: OctoPetShop
 
