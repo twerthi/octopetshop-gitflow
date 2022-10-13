@@ -68,4 +68,3 @@ jobs:
       uses: OctopusDeploy/create-release-action@v2
       with:
         project: OctoPetShop
-
