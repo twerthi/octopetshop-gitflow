@@ -53,10 +53,10 @@ jobs:
       uses: OctopusDeploy/push-build-information-action@v1
       with:
         packages: |
-          octopetshop-web-enterprise
-          octopetshop-productservice-enterprise
-          octopetshop-shoppingcartservice-enterprise
-          octopetshop-database-enterprise
+          octopussamples/octopetshop-web-enterprise
+          octopussamples/octopetshop-productservice-enterprise
+          octopussamples/octopetshop-shoppingcartservice-enterprise
+          octopussamples/octopetshop-database-enterprise
         version: ${{ env.PACKAGE_VERSION }}
 
     - name: Install Octopus CLI
