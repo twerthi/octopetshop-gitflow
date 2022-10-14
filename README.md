@@ -23,7 +23,6 @@ Octopus Pet Shop Example Web app written in .NET Core.  This solution consists o
         - Select the `Debug` > `General` tab from the menu on the left
         - Click the `Open debug launch profiles UI` link.
         - Enter a connection string in the following format, remembering to escape the `=` characters;
-
 ```
 dbUpConnectionString=Data Source/=.\SQLEXPRESS;Integrated Security/=True;Connect Timeout/=30;Encrypt/=False;TrustServerCertificate/=False;ApplicationIntent/=ReadWrite;MultiSubnetFailover/=False;Database/=ops
 ```
