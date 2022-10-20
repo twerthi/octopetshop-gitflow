@@ -16,6 +16,11 @@ namespace OctopusSamples.ShoppingCartService
         {
             CreateWebHostBuilder(args).Build().Run();
         }
+        
+        public static void IdentityContext(string[] args)
+        {
+            CreateWebHostBuilder(args).Build().Run();
+        }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
