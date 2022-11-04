@@ -24,6 +24,5 @@ namespace OctopusSamples.ShoppingCartService
                     config.AddEnvironmentVariables();
                 })
                 .UseStartup<Startup>();
-        
     }
 }
