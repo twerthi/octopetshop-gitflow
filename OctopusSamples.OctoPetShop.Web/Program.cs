@@ -24,6 +24,5 @@ namespace OctopusSamples.OctoPetShop
                     config.AddEnvironmentVariables();
                 })
                 .UseStartup<Startup>();
-        
     }
 }
