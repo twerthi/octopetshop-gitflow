@@ -1,5 +1,7 @@
 name: OctoPetShop Pre-Release
 
+on:
+  workflow_dispatch:
 
 jobs:
 
@@ -25,35 +27,24 @@ jobs:
 
        id: version-generator
        run: echo "version=$(date +'%Y.%m.%d').$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
-        
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set Version
-      run: echo "PACKAGE_VERSION=$(date +'%Y.%m.%d').$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
 
-    - name: Login to DockerHub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_SAMPLES_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_SAMPLES_PASSWORD }}
-
-    - name: Build OctoPetShop web container
-      run: |
+     - name: Build OctoPetShop web container
+       run: |
         docker build ./OctopusSamples.OctoPetShop.Web --file ./OctopusSamples.OctoPetShop.Web/dockerfile --tag octopussamples/octopetshop-web-enterprise:$PACKAGE_VERSION
         docker push octopussamples/octopetshop-web-enterprise:$PACKAGE_VERSION
         
-    - name: Build OctoPetShop product service container
-      run: | 
+     - name: Build OctoPetShop product service container
+       run: | 
         docker build ./OctopusSamples.OctoPetShop.ProductService --file ./OctopusSamples.OctoPetShop.ProductService/dockerfile --tag octopussamples/octopetshop-productservice-enterprise:$PACKAGE_VERSION
         docker push octopussamples/octopetshop-productservice-enterprise:$PACKAGE_VERSION
         
-    - name: Build OctoPetShop shopping cart container
-      run: | 
+     - name: Build OctoPetShop shopping cart container
+       run: | 
         docker build ./OctopusSamples.OctoPetShop.ShoppingCartService --file ./OctopusSamples.OctoPetShop.ShoppingCartService/dockerfile --tag octopussamples/octopetshop-shoppingcartservice-enterprise:$PACKAGE_VERSION
         docker push octopussamples/octopetshop-shoppingcartservice-enterprise:$PACKAGE_VERSION
         
-    - name: Build OctoPetShop database container
-      run: | 
+     - name: Build OctoPetShop database container
+       run: | 
         docker build ./OctopusSamples.OctoPetShop.Database --file ./OctopusSamples.OctoPetShop.Database/dockerfile --tag octopussamples/octopetshop-database-enterprise:$PACKAGE_VERSION
         docker push octopussamples/octopetshop-database-enterprise:$PACKAGE_VERSION
         
