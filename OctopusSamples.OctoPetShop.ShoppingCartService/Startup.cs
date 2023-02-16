@@ -62,6 +62,7 @@ namespace OctopusSamples.ShoppingCartService
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapControllerRoute("default", "{controller=Remote}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
 
