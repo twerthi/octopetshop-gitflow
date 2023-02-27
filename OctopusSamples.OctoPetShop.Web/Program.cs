@@ -21,6 +21,7 @@ namespace OctopusSamples.OctoPetShop
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((buildercontext, config) =>
                 {
+                    //config.AddEnvironmentVariables(false)
                     config.AddEnvironmentVariables();
                 })
                 .UseStartup<Startup>();
