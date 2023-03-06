@@ -26,6 +26,7 @@ namespace OctopusSamples.OctoPetShop
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 //options.MinimumSameSitePolicy = SameSiteMode.Full;
+                //options.MinimumSameSitePolicy = SameSiteMode.Restricted;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
 
             });
@@ -53,6 +54,7 @@ namespace OctopusSamples.OctoPetShop
         {
             if (env.IsDevelopment())
             {
+                //app.UseDeveloperExceptionPage(null);
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -78,6 +80,7 @@ namespace OctopusSamples.OctoPetShop
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                //endpoints.MapControllerRoute("default", "{controller=Remote}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
