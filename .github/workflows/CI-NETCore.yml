@@ -1,14 +1,15 @@
-name: .NET Core 
+name: CI - .NET Core 
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ "maine" ]
   workflow_dispatch:
 
 jobs:
 
   build:
 
+    name: Build & Push .NET packages
     runs-on: ubuntu-latest
 
     steps:
@@ -69,12 +70,33 @@ jobs:
       run: |
         octo pack --id="OctoPetShop.ShoppingCartService" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoPetshop.ShoppingCartService" --outFolder="$GITHUB_WORKSPACE/artifacts"
     
-    - name: Push OctoPetShop packages
+    - name: Push OctoPetShop Packages
       uses: OctopusDeploy/push-package-action@v1.1.1
       with:
         api_key: ${{ secrets.OCTOPUS_API_KEY }}
         server: ${{ secrets.OCTOPUS_SERVER_URL }}
-        packages: "artifacts/OctoPetShop.Database.${{ env.PACKAGE_VERSION }}.zip,artifacts/OctoPetShop.Web.${{ env.PACKAGE_VERSION }}.zip,artifacts/OctoPetShop.ProductService.${{ env.PACKAGE_VERSION }}.zip,artifacts/OctoPetShop.ShoppingCartService.${{ env.PACKAGE_VERSION }}.zip"
         space: ${{ secrets.OCTOPUS_SPACE_NAME }}
-    
+        packages: "artifacts/OctoPetShop.Database.${{ env.PACKAGE_VERSION }}.zip,artifacts/OctoPetShop.Web.${{ env.PACKAGE_VERSION }}.zip,artifacts/OctoPetShop.ProductService.${{ env.PACKAGE_VERSION }}.zip,artifacts/OctoPetShop.ShoppingCartService.${{ env.PACKAGE_VERSION }}.zip"
+
+  Push-build-information:
+       
+      name: Push Build Information to Octopus 🐙
+      needs: build 
+      runs-on: ubuntu-latest
+      
+      env:
+        OCTOPUS_URL: ${{ secrets.OCTOPUS_URL }}
+        OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+        OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE }}
+      
+      steps:
+      - uses: OctopusDeploy/push-build-information-action@v3
+        name: Push Build Information
+        with:
+          version: ${{ env.PACKAGE_VERSION }}
+          packages: |
+            octopussamples/octopetshop-web-enterprise
+            octopussamples/octopetshop-productservice-enterprise
+            octopussamples/octopetshop-shoppingcartservice-enterprise
+            octopussamples/octopetshop-database-enterprise
     
