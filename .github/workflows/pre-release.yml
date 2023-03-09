@@ -1,4 +1,4 @@
-name: OctoPetShop Pre-Release
+name: CI - Docker Containers
 
 on:
   push:
@@ -92,23 +92,3 @@ jobs:
           project: "OctoPetShop - K8s"
       outputs: 
        release_number: ${{ steps.create-release.outputs.release_number }}
-          
-          
-          
-            
-            
-
-        
-
-      
-        
-        
-      
-      
-             
-         
-  
-        
-
-      
-   
