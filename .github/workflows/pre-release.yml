@@ -2,7 +2,7 @@ name: CI - Docker Containers
 
 on:
   push:
-    branches: [ "maine" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
