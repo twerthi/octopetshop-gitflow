@@ -108,3 +108,21 @@ jobs:
             OctoPetShop.ProductService
             OctoPetShop.ShoppingCartService
     
+  Create-Octopus-Release:
+  
+      name: Create Octopus Release 🐙
+      needs: [build, Push-build-information]
+      runs-on: ubuntu-latest
+      
+      env:
+        OCTOPUS_URL: ${{ secrets.OCTOPUS_URL }}
+        OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+        OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE }}
+        
+      steps:
+      - uses: OctopusDeploy/create-release-action@v3
+        id: "create-release"
+        with:
+          project: "OctoPetShop - IIS"
+      outputs: 
+       release_number: ${{ steps.create-release.outputs.release_number }}
