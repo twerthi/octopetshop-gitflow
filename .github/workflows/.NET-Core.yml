@@ -77,12 +77,4 @@ jobs:
         packages: "artifacts/OctoPetShop.Database.${{ env.PACKAGE_VERSION }}.zip,artifacts/OctoPetShop.Web.${{ env.PACKAGE_VERSION }}.zip,artifacts/OctoPetShop.ProductService.${{ env.PACKAGE_VERSION }}.zip,artifacts/OctoPetShop.ShoppingCartService.${{ env.PACKAGE_VERSION }}.zip"
         space: ${{ secrets.OCTOPUS_SPACE_NAME }}
     
-    - name: Create and deploy release
-      uses: OctopusDeploy/create-release-action@v1.1.1
-      with:
-        api_key: ${{ secrets.OCTOPUS_API_KEY }}
-        server: ${{ secrets.OCTOPUS_SERVER_URL }}
-        space: ${{ secrets.OCTOPUS_SPACE_NAME }}
-        project: "OctoPetShop-IIS"
-        deploy_to: "Development"
-        progress: true
+    
