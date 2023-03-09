@@ -11,12 +11,16 @@ jobs:
 
     name: Build & Push .NET packages
     runs-on: ubuntu-latest
+    
+    outputs:
+      version: ${{ steps.version-generator.outputs.version }}
 
     steps:
     - uses: actions/checkout@v2
     
-    - name: Set Version
-      run: echo "PACKAGE_VERSION=$(date +'%Y.%m.%d').$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+    - name: Set Version Number
+      id: version-generator
+      run: echo "version=$(date +'%Y.%m.%d').$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
     
     - name: Setup .NET 6
       uses: actions/setup-dotnet@v1
@@ -56,19 +60,19 @@ jobs:
     
     - name: Package OctoPetShopDatabase
       run: |
-        octo pack --id="OctoPetShop.Database" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoPetShop.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"
+        octo pack --id="OctoPetShop.Database" --format="Zip" --version="$version" --basePath="$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoPetShop.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"
     
     - name: Package OctoPetShopWeb
       run: |
-        octo pack --id="OctoPetShop.Web" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoPetShop.Web" --outFolder="$GITHUB_WORKSPACE/artifacts"
+        octo pack --id="OctoPetShop.Web" --format="Zip" --version="$version" --basePath="$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoPetShop.Web" --outFolder="$GITHUB_WORKSPACE/artifacts"
     
     - name: Package OctoPetShopProductService
       run: |
-        octo pack --id="OctoPetShop.ProductService" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoPetShop.ProductService" --outFolder="$GITHUB_WORKSPACE/artifacts"
+        octo pack --id="OctoPetShop.ProductService" --format="Zip" --version="$version" --basePath="$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoPetShop.ProductService" --outFolder="$GITHUB_WORKSPACE/artifacts"
     
     - name: Package OctoPetShopShoppingCartService
       run: |
-        octo pack --id="OctoPetShop.ShoppingCartService" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoPetshop.ShoppingCartService" --outFolder="$GITHUB_WORKSPACE/artifacts"
+        octo pack --id="OctoPetShop.ShoppingCartService" --format="Zip" --version="$version" --basePath="$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoPetshop.ShoppingCartService" --outFolder="$GITHUB_WORKSPACE/artifacts"
     
     - name: Push OctoPetShop Packages
       uses: OctopusDeploy/push-package-action@v1.1.1
@@ -76,7 +80,7 @@ jobs:
         api_key: ${{ secrets.OCTOPUS_API_KEY }}
         server: ${{ secrets.OCTOPUS_SERVER_URL }}
         space: ${{ secrets.OCTOPUS_SPACE_NAME }}
-        packages: "artifacts/OctoPetShop.Database.${{ env.PACKAGE_VERSION }}.zip,artifacts/OctoPetShop.Web.${{ env.PACKAGE_VERSION }}.zip,artifacts/OctoPetShop.ProductService.${{ env.PACKAGE_VERSION }}.zip,artifacts/OctoPetShop.ShoppingCartService.${{ env.PACKAGE_VERSION }}.zip"
+        packages: "artifacts/OctoPetShop.Database.${{ steps.version-generator.outputs.version }}.zip,artifacts/OctoPetShop.Web.${{ steps.version-generator.outputs.version }}.zip,artifacts/OctoPetShop.ProductService.${{ steps.version-generator.outputs.version }}.zip,artifacts/OctoPetShop.ShoppingCartService.${{ steps.version-generator.outputs.version }}.zip"
 
   Push-build-information:
        
@@ -93,7 +97,7 @@ jobs:
       - uses: OctopusDeploy/push-build-information-action@v3
         name: Push Build Information
         with:
-          version: ${{ env.PACKAGE_VERSION }}
+          version: ${{ needs.build.outputs.version }}
           packages: |
             octopussamples/octopetshop-web-enterprise
             octopussamples/octopetshop-productservice-enterprise
