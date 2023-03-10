@@ -90,5 +90,6 @@ jobs:
         id: "create-release"
         with:
           project: "OctoPetShop - K8s"
+          git_ref: "master"
       outputs: 
        release_number: ${{ steps.create-release.outputs.release_number }}
