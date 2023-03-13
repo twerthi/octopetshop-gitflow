@@ -59,6 +59,7 @@ namespace OctopusSamples.OctoPetShop
             }
             else
             {
+                //app.UseExceptionHandler("/Home/ErrorPage.asp");
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
