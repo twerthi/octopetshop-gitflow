@@ -2,8 +2,8 @@ name: Trigger OctoPetShop build pipeline in Azure DevOps
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   trigger_pipeline:
