@@ -94,3 +94,24 @@ jobs:
           git_ref: "master"
       outputs: 
        release_number: ${{ steps.create-release.outputs.release_number }}
+  
+  Create-Octopus-Microservices-Releases:
+  
+      name: Create Octopus Microservices Releases 🐙
+      needs: [build, Push-build-information]
+      runs-on: ubuntu-latest
+      
+      env:
+        OCTOPUS_URL: ${{ secrets.OCTOPUS_URL }}
+        OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+        OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE }}
+        
+      steps:
+      - uses: OctopusDeploy/create-release-action@v3
+        id: "create-release"
+        with:
+          project: |
+            OPS-API Service
+            OPS-Cart Service
+      outputs: 
+       release_number: ${{ steps.create-release.outputs.release_number }}
