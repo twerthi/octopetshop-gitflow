@@ -65,7 +65,8 @@ namespace OctopusSamples.OctoPetShop
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            
+            //app.UseRouting(false);
             app.UseRouting();
 
             app.UseAuthorization();
