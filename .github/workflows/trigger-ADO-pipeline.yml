@@ -1,4 +1,4 @@
-name: Trigger OctoPetShop build pipeline in Azure DevOps
+name: Trigger ADO Build Pipeline
 
 on:
   push:
