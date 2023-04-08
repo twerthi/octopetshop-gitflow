@@ -123,5 +123,9 @@ jobs:
         id: "create-release-db"
         with:
           project: "OPS-DB Migrations"
+      - uses: OctopusDeploy/create-release-action@v3
+        id: "create-release-sql"
+        with:
+          project: "OPS-Database"
       outputs: 
        release_number: ${{ steps.create-release.outputs.release_number }}
