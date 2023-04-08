@@ -108,10 +108,20 @@ jobs:
         
       steps:
       - uses: OctopusDeploy/create-release-action@v3
-        id: "create-release"
+        id: "create-release-web"
         with:
-          projects: |
-           "OPS-API Service"
-           "OPS-Cart Service"
+          project: "OPS-Web App"
+      - uses: OctopusDeploy/create-release-action@v3
+        id: "create-release-api"
+        with:
+          project: "OPS-API Service"
+      - uses: OctopusDeploy/create-release-action@v3
+        id: "create-release-cart"
+        with:
+          project: "OPS-Cart Service"
+      - uses: OctopusDeploy/create-release-action@v3
+        id: "create-release-db"
+        with:
+          project: "OPS-DB Migrations"
       outputs: 
        release_number: ${{ steps.create-release.outputs.release_number }}
