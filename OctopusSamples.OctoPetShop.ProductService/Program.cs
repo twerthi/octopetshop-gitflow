@@ -22,7 +22,6 @@ namespace OctopusSamples.ProductService
                 .ConfigureAppConfiguration((buildercontext, config) =>
                 {
                     //config.AddIdentityProvider(args);
-                    //config.AddIdentityProvider(null);
                     config.AddEnvironmentVariables();
                 })
                 .UseStartup<Startup>();
