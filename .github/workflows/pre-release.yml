@@ -1,4 +1,4 @@
-name: CI - Docker Containers
+name: Run Unit Tests
 
 on:
   push:
