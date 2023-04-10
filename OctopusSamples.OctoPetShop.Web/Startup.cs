@@ -82,6 +82,7 @@ namespace OctopusSamples.OctoPetShop
             {
                 endpoints.MapRazorPages();
                 //endpoints.MapControllerRoute("default", "{controller=Remote}/{action=Index}/{id?}");
+                //endpoints.MapControllerRoute("default", "{controller=Cloud}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
