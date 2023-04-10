@@ -77,7 +77,6 @@ jobs:
   Create-Octopus-Release:
   
       name: Create Octopus Release 🐙
-      if: ${{ false }}
       needs: [build, Push-build-information]
       runs-on: ubuntu-latest
       
