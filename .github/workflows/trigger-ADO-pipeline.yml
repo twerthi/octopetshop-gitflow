@@ -2,7 +2,7 @@ name: Trigger ADO Build Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "maine" ]
   workflow_dispatch:
 
 jobs:
