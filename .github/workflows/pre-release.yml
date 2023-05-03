@@ -73,26 +73,6 @@ jobs:
             octopussamples/octopetshop-productservice-enterprise
             octopussamples/octopetshop-shoppingcartservice-enterprise
             octopussamples/octopetshop-database-enterprise
-          
-  Create-Octopus-Release:
-  
-      name: Create Octopus Release 🐙
-      needs: [build, Push-build-information]
-      runs-on: ubuntu-latest
-      
-      env:
-        OCTOPUS_URL: ${{ secrets.OCTOPUS_URL }}
-        OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
-        OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE }}
-        
-      steps:
-      - uses: OctopusDeploy/create-release-action@v3
-        id: "create-release"
-        with:
-          project: "OctoPetShop - K8s"
-          git_ref: "master"
-      outputs: 
-       release_number: ${{ steps.create-release.outputs.release_number }}
   
   Create-Octopus-Microservices-Releases:
   
@@ -126,5 +106,25 @@ jobs:
         id: "create-release-sql"
         with:
           project: "OPS-Database"
+      outputs: 
+       release_number: ${{ steps.create-release.outputs.release_number }}
+
+          
+  Create-Octopus-Release:
+  
+      name: Create Octopus Orchestrator Release 🐙
+      needs: [build, Push-build-information]
+      runs-on: ubuntu-latest
+      
+      env:
+        OCTOPUS_URL: ${{ secrets.OCTOPUS_URL }}
+        OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+        OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE }}
+        
+      steps:
+      - uses: OctopusDeploy/create-release-action@v3
+        id: "create-release"
+        with:
+          project: "OPS - Orchestrator"
       outputs: 
        release_number: ${{ steps.create-release.outputs.release_number }}
