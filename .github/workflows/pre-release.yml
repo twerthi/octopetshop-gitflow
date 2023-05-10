@@ -53,7 +53,7 @@ jobs:
         
   Push-build-information:
        
-      name: Push Build Information to Octopus 🐙
+      name: 🐙Push Build Information
       needs: build 
       runs-on: ubuntu-latest
       
@@ -73,46 +73,10 @@ jobs:
             octopussamples/octopetshop-productservice-enterprise
             octopussamples/octopetshop-shoppingcartservice-enterprise
             octopussamples/octopetshop-database-enterprise
-  
-  Create-Octopus-Microservices-Releases:
-  
-      name: Create Octopus Microservices Releases 🐙
-      needs: [build, Push-build-information]
-      runs-on: ubuntu-latest
-      
-      env:
-        OCTOPUS_URL: ${{ secrets.OCTOPUS_URL }}
-        OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
-        OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE }}
-        
-      steps:
-      - uses: OctopusDeploy/create-release-action@v3
-        id: "create-release-web"
-        with:
-          project: "OPS-Web App"
-      - uses: OctopusDeploy/create-release-action@v3
-        id: "create-release-api"
-        with:
-          project: "OPS-API Service"
-      - uses: OctopusDeploy/create-release-action@v3
-        id: "create-release-cart"
-        with:
-          project: "OPS-Cart Service"
-      - uses: OctopusDeploy/create-release-action@v3
-        id: "create-release-db"
-        with:
-          project: "OPS-DB Migrations"
-      - uses: OctopusDeploy/create-release-action@v3
-        id: "create-release-sql"
-        with:
-          project: "OPS-Database"
-      outputs: 
-       release_number: ${{ steps.create-release.outputs.release_number }}
-
           
   Create-Octopus-Release:
   
-      name: Create Octopus Orchestrator Release 🐙
+      name: 🐙Create Release
       needs: [build, Push-build-information]
       runs-on: ubuntu-latest
       
@@ -125,6 +89,6 @@ jobs:
       - uses: OctopusDeploy/create-release-action@v3
         id: "create-release"
         with:
-          project: "OPS - Orchestrator"
+          project: "OctoPetShop - K8s"
       outputs: 
        release_number: ${{ steps.create-release.outputs.release_number }}
