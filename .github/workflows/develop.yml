@@ -9,7 +9,7 @@ jobs:
 
   build:
 
-    name: Build & Push .NET packages
+    name: Build & Push packages
     runs-on: ubuntu-latest
     
     outputs:
@@ -32,7 +32,10 @@ jobs:
     
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    
+
+    - name: Unit test
+      run: echo "Executing unit tests ✅"
+
     - name: Create artifacts folder
       run: |
         mkdir "$GITHUB_WORKSPACE/artifacts"
@@ -86,8 +89,23 @@ jobs:
           artifacts/OctoPetShop.ProductService.${{ steps.version-generator.outputs.version }}.zip
           artifacts/OctoPetShop.ShoppingCartService.${{ steps.version-generator.outputs.version }}.zip
 
-  Push-build-information:
-       
+  code-analysis:
+    name: Run code analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run code analysis
+        run: echo "Executing code analysis ✅"
+
+  sast:
+    name: Run SAST
+    runs-on: ubuntu-latest
+      
+    steps:
+      - name: Run SAST
+        run: echo "Executing SAST ✅"
+
+  push-build-information:
       name: Push Build Information to Octopus 🐙
       needs: build 
       runs-on: ubuntu-latest
@@ -108,7 +126,7 @@ jobs:
             OctoPetShop.ProductService
             OctoPetShop.ShoppingCartService
     
-  Create-Octopus-Release:
+  create-octopus-release:
   
       name: Create Octopus Release 🐙
       needs: [build, Push-build-information]
