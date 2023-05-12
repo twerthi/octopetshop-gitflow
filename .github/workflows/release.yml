@@ -41,7 +41,7 @@ jobs:
           project: "OctoPetShop - Gitflow 1"
           channel: "2 - Release"
 
-  tests:
+  test-suite:
     name: Run test suite
     runs-on: ubuntu-latest
     needs: create-octopus-release
@@ -50,3 +50,14 @@ jobs:
     steps:
       - name: Run test suite
         run: echo "Executing test suite ✅"
+
+
+  approval:
+    name: Approve deployment
+    needs: [test-suite]
+    runs-on: ubuntu-latest
+    environment: 'Hom'
+      
+    steps:
+      - name: Gather approval
+        run: echo "Approval gathered ✅"
