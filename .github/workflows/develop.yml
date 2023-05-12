@@ -129,7 +129,7 @@ jobs:
   create-octopus-release:
   
       name: Create Octopus Release 🐙
-      needs: [build, Push-build-information]
+      needs: [build, push-build-information]
       runs-on: ubuntu-latest
       
       env:
@@ -138,13 +138,19 @@ jobs:
         OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE_NAME }}
         
       steps:
-      - uses: OctopusDeploy/create-release-action@v3
-        id: "create-release"
-        with:
-          project: "OctoPetShop - Gitflow 1"
-          channel: "1 - Develop"
+        - uses: OctopusDeploy/create-release-action@v3
+          id: "create-release-1"
+          with:
+            project: "OctoPetShop - Gitflow 1"
+            channel: "1 - Develop"
+
+        - uses: OctopusDeploy/create-release-action@v3
+          id: "create-release-2"
+          with:
+            project: "OctoPetShop - Gitflow 2"
       outputs: 
-       release_number: ${{ steps.create-release.outputs.release_number }}
+        release_number-1: ${{ steps.create-release-1.outputs.release_number }}
+        release_number-2: ${{ steps.create-release-2.outputs.release_number }}
 
   approval:
     name: Approve deployment
