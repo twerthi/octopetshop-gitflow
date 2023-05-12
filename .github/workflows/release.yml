@@ -6,22 +6,58 @@ on:
   workflow_dispatch:
 
 jobs:
-    
-  Create-Octopus-Release:
-  
-      name: Create Octopus Release 🐙
-      runs-on: ubuntu-latest
+  create-github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: ncipollo/release-action@v1
+        with:
+          tag: ops-latest
+
+  promote-artifact:
+    name: Promote artifact
+    runs-on: ubuntu-latest
+    needs: create-github-release
+
+    steps:
+      - name: Promote artifact
+        run: echo "Promoting artifact ✅"
+
+  create-octopus-release:
+    name: Create Octopus Release 🐙
+    runs-on: ubuntu-latest
+    needs: promote-artifact
       
-      env:
-        OCTOPUS_URL: ${{ secrets.OCTOPUS_SERVER_URL }}
-        OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
-        OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE_NAME }}
+    env:
+      OCTOPUS_URL: ${{ secrets.OCTOPUS_SERVER_URL }}
+      OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+      OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE_NAME }}
         
-      steps:
+    steps:
       - uses: OctopusDeploy/create-release-action@v3
         id: "create-release"
         with:
           project: "OctoPetShop - Gitflow 1"
           channel: "2 - Release"
-      outputs: 
-       release_number: ${{ steps.create-release.outputs.release_number }}
+
+  test-suite:
+    name: Run test suite
+    runs-on: ubuntu-latest
+    needs: create-octopus-release
+    environment: 'Hom'
+                
+    steps:
+      - name: Run test suite
+        run: echo "Executing test suite ✅"
+
+
+  approval:
+    name: Approve deployment
+    needs: [test-suite]
+    runs-on: ubuntu-latest
+    environment: 'Hom'
+      
+    steps:
+      - name: Gather approval
+        run: echo "Approval gathered ✅"
