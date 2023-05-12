@@ -145,3 +145,13 @@ jobs:
           channel: "1 - Develop"
       outputs: 
        release_number: ${{ steps.create-release.outputs.release_number }}
+
+  approval:
+    name: Approve deployment
+    needs: [create-octopus-release, code-analysis, sast]
+    runs-on: ubuntu-latest
+    environment: 'Hom'
+
+    steps:
+      - name: Gather approval
+        run: echo "Approval gathered ✅"
