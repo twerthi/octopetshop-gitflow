@@ -6,22 +6,50 @@ on:
   workflow_dispatch:
 
 jobs:
-    
-  Create-Octopus-Release:
-  
-      name: Create Octopus Release 🐙
-      runs-on: ubuntu-latest
+
+  promote-artifact-to-production:
+    name: Promote artifact 🔼
+    runs-on: ubuntu-latest
+    steps:
+      - name: Promote artifact
+        run: echo "Promoting artifact ✅"
+
+  smap:
+    name: Run SMAP
+    runs-on: ubuntu-latest
+    needs: promote-artifact-to-production
+    environment: 'Hom'
+                      
+    steps:
+      - name: Run manual test suite
+        run: echo "Executing SMAP ✅"
+
+  change-validation:
+    name: Run Change validation
+    runs-on: ubuntu-latest
+    needs: smap
+    environment: 'Hom'
+                            
+    steps:
+      - name: Run manual test suite
+        run: echo "Executing Change validation ✅"
+
+  deploy-octopus-release:
+    name: Deploy Octopus release 🐙
+    runs-on: ubuntu-latest
+    needs: change-validation
+            
+    env:
+      OCTOPUS_URL: ${{ secrets.OCTOPUS_SERVER_URL }}
+      OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+      OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE_NAME }}
       
-      env:
-        OCTOPUS_URL: ${{ secrets.OCTOPUS_SERVER_URL }}
-        OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
-        OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE_NAME }}
-        
-      steps:
-      - uses: OctopusDeploy/create-release-action@v3
-        id: "create-release"
+    steps:
+      - name: Install Octopus CLI
+        uses: OctopusDeploy/install-octopus-cli-action@v1.1.6
         with:
-          project: "OctoPetShop - Gitflow 1"
-          channel: "3 - Prod"
-      outputs: 
-       release_number: ${{ steps.create-release.outputs.release_number }}
+          version: latest
+      
+      - name: promote release
+        run: octo promote-release --project "OctoPetShop - Gitflow 2" --from Test --to Production --progress --server ${{ secrets.OCTOPUS_SERVER_URL }} --apikey ${{ secrets.OCTOPUS_API_KEY }} --space "${{ secrets.OCTOPUS_SPACE_NAME }}"
+      
