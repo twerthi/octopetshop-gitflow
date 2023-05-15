@@ -18,7 +18,6 @@ jobs:
     name: Run SMAP
     runs-on: ubuntu-latest
     needs: promote-artifact-to-production
-    environment: 'Hom'
                       
     steps:
       - name: Run manual test suite
@@ -28,7 +27,6 @@ jobs:
     name: Run Change validation
     runs-on: ubuntu-latest
     needs: smap
-    environment: 'Hom'
                             
     steps:
       - name: Run manual test suite
