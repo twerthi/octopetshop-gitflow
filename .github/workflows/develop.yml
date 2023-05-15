@@ -9,7 +9,7 @@ jobs:
 
   build:
 
-    name: Build & Push packages
+    name: Build and push packages ⚙️
     runs-on: ubuntu-latest
     
     outputs:
@@ -114,7 +114,7 @@ jobs:
           artifacts/OctoPetShop.ShoppingCartService.${{ steps.version-generator.outputs.version }}.zip
 
   code-analysis:
-    name: Run code analysis
+    name: Run code analysis 🧪
     runs-on: ubuntu-latest
 
     steps:
@@ -122,7 +122,7 @@ jobs:
         run: echo "Executing code analysis ✅"
 
   sast:
-    name: Run SAST
+    name: Run SAST 🧪
     runs-on: ubuntu-latest
       
     steps:
@@ -162,12 +162,6 @@ jobs:
         OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE_NAME }}
         
       steps:
-        - uses: OctopusDeploy/create-release-action@v3
-          id: "create-release-1"
-          with:
-            project: "OctoPetShop - Gitflow 1"
-            channel: "1 - Develop"
-            release_number: ${{ needs.build.outputs.version }}
 
         - uses: OctopusDeploy/create-release-action@v3
           id: "create-release-2"
@@ -188,7 +182,7 @@ jobs:
             server_task_id: ${{ fromJson(steps.deploy-release-2.outputs.server_tasks)[0].serverTaskId }}
 
   approval:
-    name: Approve deployment
+    name: Approve deployment ✅
     needs: [create-octopus-release, code-analysis, sast]
     runs-on: ubuntu-latest
     environment: 'Hom'
