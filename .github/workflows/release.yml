@@ -32,7 +32,7 @@ jobs:
     env:
       OCTOPUS_URL: ${{ secrets.OCTOPUS_SERVER_URL }}
       OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
-      OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE_NAME }}
+      OCTOPUS_SPACE: ${{ vars.OCTOPUS_SPACE_NAME }}
 
     steps:
       - name: Install Octopus CLI
@@ -41,7 +41,7 @@ jobs:
           version: latest
 
       - name: promote release
-        run: octo promote-release --project "OctoPetShop - Gitflow 2" --from Development --to Test --progress --server ${{ secrets.OCTOPUS_SERVER_URL }} --apikey ${{ secrets.OCTOPUS_API_KEY }} --space "${{ secrets.OCTOPUS_SPACE_NAME }}"
+        run: octo promote-release --project "${{ vars.OCTOPUS_PROJECT_NAME }}" --from "${{ vars.OCTOPUS_ENVIRONMENT_DEVELOPMENT }}" --to "${{ vars.OCTOPUS_ENVIRONMENT_TEST }}" --progress --server ${{ secrets.OCTOPUS_SERVER_URL }} --apikey ${{ secrets.OCTOPUS_API_KEY }} --space "${{ vars.OCTOPUS_SPACE_NAME }}"
 
   manual-test-suite:
     name: Run manual test suite 🧪

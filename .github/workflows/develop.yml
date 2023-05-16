@@ -106,7 +106,7 @@ jobs:
       with:
         api_key: ${{ secrets.OCTOPUS_API_KEY }}
         server: ${{ secrets.OCTOPUS_SERVER_URL }}
-        space: ${{ secrets.OCTOPUS_SPACE_NAME }}
+        space: ${{ vars.OCTOPUS_SPACE_NAME }}
         packages: |
           artifacts/OctoPetShop.Database.${{ steps.version-generator.outputs.version }}.zip
           artifacts/OctoPetShop.Web.${{ steps.version-generator.outputs.version }}.zip
@@ -137,7 +137,7 @@ jobs:
       env:
         OCTOPUS_URL: ${{ secrets.OCTOPUS_SERVER_URL }}
         OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
-        OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE_NAME }}
+        OCTOPUS_SPACE: ${{ vars.OCTOPUS_SPACE_NAME }}
       
       steps:
       - uses: OctopusDeploy/push-build-information-action@v3
@@ -159,22 +159,22 @@ jobs:
       env:
         OCTOPUS_URL: ${{ secrets.OCTOPUS_SERVER_URL }}
         OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
-        OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE_NAME }}
+        OCTOPUS_SPACE: ${{ vars.OCTOPUS_SPACE_NAME }}
         
       steps:
 
         - uses: OctopusDeploy/create-release-action@v3
           id: "create-release-2"
           with:
-            project: "OctoPetShop - Gitflow 2"
+            project: "${{ vars.OCTOPUS_PROJECT_NAME }}"
             release_number: ${{ needs.build.outputs.version }}
 
         - uses: OctopusDeploy/deploy-release-action@v3
           id: "deploy-release-2"
           with:
-            project: "OctoPetShop - Gitflow 2"
+            project: "${{ vars.OCTOPUS_PROJECT_NAME }}"
             release_number: ${{ needs.build.outputs.version }}
-            environments: Development
+            environments: "${{ vars.OCTOPUS_ENVIRONMENT_DEVELOPMENT }}"
 
         - uses: OctopusDeploy/await-task-action@v3
           id: "wait-for-deploy-2"
@@ -185,7 +185,7 @@ jobs:
     name: Approve deployment ✅
     needs: [create-octopus-release, code-analysis, sast]
     runs-on: ubuntu-latest
-    environment: 'Hom'
+    environment: "Dev"
 
     steps:
       - name: Gather approval
