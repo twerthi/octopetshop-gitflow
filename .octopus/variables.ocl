@@ -1,0 +1,99 @@
+variable "AppSettings:AppVersion" {
+    value "#{Octopus.Release.Number}" {}
+}
+
+variable "AppSettings:EnvironmentName" {
+    value "#{Octopus.Environment.Name}" {}
+}
+
+variable "AppSettings:ProductServiceBaseUrl" {
+    value "http://localhost:#{OPS.ProductService.Port}" {}
+}
+
+variable "AppSettings:ShoppingCartServiceBaseUrl" {
+    value "http://localhost:#{OPS.ShoppingCartService.Port}" {}
+}
+
+variable "ConnectionStrings:OPSConnectionString" {
+    value "Server=#{OPS.Database.Server};Database=#{OPS.Database.Name}; User ID=#{OPS.Database.Admin.User}; Password=#{OPS.Database.Admin.Password}" {}
+}
+
+variable "Octopus.ServiceNow.ChangeRequest.Number" {
+    value "CHG0030005" {
+        environment = ["production"]
+
+        prompt {
+            description = ""
+            display_settings = {
+                Octopus.ControlType = "SingleLineText"
+            }
+            label = "SNOW Change Request"
+        }
+    }
+}
+
+variable "OPS.CleanedSpaceName" {
+    value "#{Octopus.Space.Name | Replace \"[^a-zA-Z]+\" \"-\" | ToLower}" {}
+}
+
+variable "OPS.Database.Admin.User" {
+    value "octoadmin" {}
+}
+
+variable "OPS.Database.ConnectionString" {
+    value "#{ConnectionStrings:OPSConnectionString}" {}
+}
+
+variable "OPS.Database.Name" {
+    value "ops-development" {
+        environment = ["development"]
+    }
+
+    value "ops-test" {
+        environment = ["test"]
+    }
+
+    value "ops-production" {
+        environment = ["production"]
+    }
+}
+
+variable "OPS.Database.Role" {
+    value "db_owner" {}
+}
+
+variable "OPS.Database.Server" {
+    value "tcp:octo-demo.database.windows.net,1433" {}
+}
+
+variable "OPS.Database.User" {
+    value "octoadmin" {}
+}
+
+variable "OPS.ProductService.Name" {
+    value "OctoPetShop.ProductService.#{OPS.CleanedSpaceName}" {}
+}
+
+variable "OPS.ProductService.Port" {
+    value "8851" {}
+}
+
+variable "OPS.ShoppingCartService.Name" {
+    value "OctoPetShop.ShoppingCartService.#{OPS.CleanedSpaceName}" {}
+}
+
+variable "OPS.ShoppingCartService.Port" {
+    value "8852" {}
+}
+
+variable "OPS.Web.Portal.Port" {
+    value "8888" {}
+}
+
+variable "OPS.Web.Portal.Service" {
+    value "OctoPetShop.Web.#{OPS.CleanedSpaceName}" {}
+}
+
+variable "OPS.Web.Portal.URL" {
+    value "http://#{Octopus.Machine.Name}.westus2.cloudapp.azure.com:#{OPS.Web.Portal.Port}" {}
+}
