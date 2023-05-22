@@ -65,7 +65,7 @@ jobs:
       uses: OctopusDeploy/create-zip-package-action@v3
       with:
         package_id: "OctoPetShop.Database"
-        version: "${{ steps.version-generator.outputs.version }}"
+        version: "${{ steps.version-generator.outputs.version }}-gitflow"
         output_folder: "${{ github.workspace }}/artifacts"
         base_path: "${{ github.workspace }}/artifacts/OctopusSamples.OctoPetShop.Database"
         files: |
@@ -75,7 +75,7 @@ jobs:
       uses: OctopusDeploy/create-zip-package-action@v3
       with:
         package_id: "OctoPetShop.Web"
-        version: "${{ steps.version-generator.outputs.version }}"
+        version: "${{ steps.version-generator.outputs.version }}-gitflow"
         output_folder: "${{ github.workspace }}/artifacts"
         base_path: "${{ github.workspace }}/artifacts/OctopusSamples.OctoPetShop.Web"
         files: |
@@ -85,7 +85,7 @@ jobs:
       uses: OctopusDeploy/create-zip-package-action@v3
       with:
         package_id: "OctoPetShop.ProductService"
-        version: "${{ steps.version-generator.outputs.version }}"
+        version: "${{ steps.version-generator.outputs.version }}-gitflow"
         output_folder: "${{ github.workspace }}/artifacts"
         base_path: "${{ github.workspace }}/artifacts/OctopusSamples.OctoPetShop.ProductService"
         files: |
@@ -95,23 +95,23 @@ jobs:
       uses: OctopusDeploy/create-zip-package-action@v3
       with:
         package_id: "OctoPetShop.ShoppingCartService"
-        version: "${{ steps.version-generator.outputs.version }}"
+        version: "${{ steps.version-generator.outputs.version }}-gitflow"
         output_folder: "${{ github.workspace }}/artifacts"
         base_path: "${{ github.workspace }}/artifacts/OctopusSamples.OctoPetShop.ShoppingCartService"
         files: |
           **/*.*
 
-    - name: Push OctoPetShop Packages
+    - name: Push OctoPetShop Packages 🐙
       uses: OctopusDeploy/push-package-action@v1.1.1
       with:
         api_key: ${{ secrets.OCTOPUS_API_KEY }}
         server: ${{ secrets.OCTOPUS_SERVER_URL }}
         space: ${{ vars.OCTOPUS_SPACE_NAME }}
         packages: |
-          artifacts/OctoPetShop.Database.${{ steps.version-generator.outputs.version }}.zip
-          artifacts/OctoPetShop.Web.${{ steps.version-generator.outputs.version }}.zip
-          artifacts/OctoPetShop.ProductService.${{ steps.version-generator.outputs.version }}.zip
-          artifacts/OctoPetShop.ShoppingCartService.${{ steps.version-generator.outputs.version }}.zip
+          artifacts/OctoPetShop.Database.${{ steps.version-generator.outputs.version }}-gitflow.zip
+          artifacts/OctoPetShop.Web.${{ steps.version-generator.outputs.version }}-gitflow.zip
+          artifacts/OctoPetShop.ProductService.${{ steps.version-generator.outputs.version }}-gitflow.zip
+          artifacts/OctoPetShop.ShoppingCartService.${{ steps.version-generator.outputs.version }}-gitflow.zip
 
   code-analysis:
     name: Run code analysis 🧪
@@ -151,8 +151,7 @@ jobs:
             OctoPetShop.ShoppingCartService
     
   create-octopus-release:
-  
-      name: Create Octopus Release 🐙
+      name: Deploy release to Dev 🐙
       needs: [build, push-build-information]
       runs-on: ubuntu-latest
       
@@ -162,7 +161,6 @@ jobs:
         OCTOPUS_SPACE: ${{ vars.OCTOPUS_SPACE_NAME }}
         
       steps:
-
         - uses: OctopusDeploy/create-release-action@v3
           id: "create-release-2"
           with:
@@ -182,7 +180,7 @@ jobs:
             server_task_id: ${{ fromJson(steps.deploy-release-2.outputs.server_tasks)[0].serverTaskId }}
 
   approval:
-    name: Approve deployment ✅
+    name: Approve Dev deployment ✅
     needs: [create-octopus-release, code-analysis, sast]
     runs-on: ubuntu-latest
     environment: "Dev"

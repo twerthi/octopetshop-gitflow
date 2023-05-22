@@ -8,14 +8,14 @@ on:
 jobs:
 
   promote-artifact-to-production:
-    name: Promote artifact 🔼
+    name: Promote artifact to Prod 🔼
     runs-on: ubuntu-latest
     steps:
       - name: Promote artifact
-        run: echo "Promoting artifact ✅"
+        run: echo "Promoting artifact to Prod ✅"
 
   smap:
-    name: Run SMAP
+    name: Run SMAP 🔍
     runs-on: ubuntu-latest
     needs: promote-artifact-to-production
                       
@@ -24,7 +24,7 @@ jobs:
         run: echo "Executing SMAP ✅"
 
   change-validation:
-    name: Run Change validation
+    name: Run Change validation 🔍
     runs-on: ubuntu-latest
     needs: smap
                             
@@ -33,7 +33,7 @@ jobs:
         run: echo "Executing Change validation ✅"
 
   deploy-octopus-release:
-    name: Deploy Octopus release 🐙
+    name: Deploy release to Prod 🐙
     runs-on: ubuntu-latest
     needs: change-validation
             

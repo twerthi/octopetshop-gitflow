@@ -16,16 +16,16 @@ jobs:
          run: echo "creating release"
 
   promote-artifact:
-    name: Promote artifact 🔼
+    name: Promote artifact to Hom 🔼
     runs-on: ubuntu-latest
     needs: create-github-release
 
     steps:
       - name: Promote artifact
-        run: echo "Promoting artifact ✅"
+        run: echo "Promoting artifact to Hom ✅"
 
   deploy-octopus-release:
-    name: Deploy Octopus release 🐙
+    name: Deploy release to Hom 🐙
     runs-on: ubuntu-latest
     needs: promote-artifact
       
@@ -63,7 +63,7 @@ jobs:
         run: echo "Executing automated test suite ✅"
 
   approval:
-    name: Approve deployment ✅
+    name: Approve Hom deployment ✅
     needs: [manual-test-suite, automated-test-suite]
     runs-on: ubuntu-latest
     environment: 'Hom'
