@@ -160,22 +160,24 @@ jobs:
         
       steps:
         - uses: OctopusDeploy/create-release-action@v3
-          id: "create-release-2"
+          id: "create-release"
           with:
             project: "${{ vars.OCTOPUS_PROJECT_NAME }}"
             release_number: ${{ needs.build.outputs.version }}
+            git_ref: ${{ (github.ref_type == 'tag' && github.event.repository.default_branch ) || (github.head_ref || github.ref) }}
+            git_commit: ${{ github.event.after || github.event.pull_request.head.sha }}
 
         - uses: OctopusDeploy/deploy-release-action@v3
-          id: "deploy-release-2"
+          id: "deploy-release"
           with:
             project: "${{ vars.OCTOPUS_PROJECT_NAME }}"
             release_number: ${{ needs.build.outputs.version }}
             environments: "${{ vars.OCTOPUS_ENVIRONMENT_DEVELOPMENT }}"
 
         - uses: OctopusDeploy/await-task-action@v3
-          id: "wait-for-deploy-2"
+          id: "wait-for-deploy"
           with:
-            server_task_id: ${{ fromJson(steps.deploy-release-2.outputs.server_tasks)[0].serverTaskId }}
+            server_task_id: ${{ fromJson(steps.deploy-release.outputs.server_tasks)[0].serverTaskId }}
 
   approval:
     name: Approve Dev deployment ✅
