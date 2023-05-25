@@ -97,3 +97,11 @@ variable "OPS.Web.Portal.Service" {
 variable "OPS.Web.Portal.URL" {
     value "http://#{Octopus.Machine.Name}.westus2.cloudapp.azure.com:#{OPS.Web.Portal.Port}" {}
 }
+
+variable "OPS.ProductService.URL" {
+    value "http://localhost:#{OPS.ProductService.Port}" {}
+}
+
+variable "OPS.ShoppingCartService.URL" {
+    value "http://localhost:#{OPS.ShoppingCartService.Port}" {}
+}
