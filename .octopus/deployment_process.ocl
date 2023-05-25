@@ -233,7 +233,7 @@ step "smoke-test-api-endpoints" {
         properties = {
             Octopus.Action.RunOnServer = "false"
             Octopus.Action.Template.Id = "ActionTemplates-2064"
-            Octopus.Action.Template.Version = "9"
+            Octopus.Action.Template.Version = "10"
             SmokeTest.PortalUri = "#{OPS.Web.Portal.URL}"
             SmokeTest.ProductUri = "#{AppSettings:ProductServiceBaseUrl}"
             SmokeTest.ShoppingCartUri = "#{AppSettings:ShoppingCartServiceBaseUrl}"
