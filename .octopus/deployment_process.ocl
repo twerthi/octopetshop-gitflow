@@ -109,6 +109,7 @@ step "ops-product-service" {
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
             Octopus.Action.Package.JsonConfigurationVariablesTargets = "appsettings.json"
             Octopus.Action.Package.PackageId = "OctoPetShop.ProductService"
+            Octopus.Action.RunOnServer = "false"
         }
         worker_pool_variable = ""
 
@@ -155,6 +156,7 @@ step "ops-shopping-cart" {
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
             Octopus.Action.Package.JsonConfigurationVariablesTargets = "appsettings.json"
             Octopus.Action.Package.PackageId = "OctoPetShop.ShoppingCartService"
+            Octopus.Action.RunOnServer = "false"
         }
         worker_pool_variable = ""
 
@@ -200,6 +202,7 @@ step "ops-web" {
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
             Octopus.Action.Package.JsonConfigurationVariablesTargets = "appsettings.json"
             Octopus.Action.Package.PackageId = "OctoPetShop.Web"
+            Octopus.Action.RunOnServer = "false"
         }
         worker_pool_variable = ""
 
@@ -224,8 +227,10 @@ step "smoke-test-api-endpoints" {
         properties = {
             Octopus.Action.RunOnServer = "false"
             Octopus.Action.Template.Id = "ActionTemplates-2064"
-            Octopus.Action.Template.Version = "6"
-            smoketest.baseURI = "#{OPS.Web.Portal.URL}"
+            Octopus.Action.Template.Version = "8"
+            SmokeTest.PortalUri = "#{OPS.Web.Portal.URL}"
+            SmokeTest.ProductUri = "#{OPS.ProductService.URL}"
+            SmokeTest.ShoppingCartUri = "#{OPS.ShoppingCart.URL}"
         }
         worker_pool_variable = ""
     }
