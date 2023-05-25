@@ -96,5 +96,5 @@ jobs:
         base_path: "${{ github.workspace }}/artifacts/OctopusSamples.OctoPetShop.ShoppingCartService"
         files: |
           **/*.*
-    - name: Publish OctoPetShopDatabase
-      run: ls ${{ github.workspace }}/artifacts
+    - name: List files
+      run: ls -s ${{ github.workspace }}/artifacts
