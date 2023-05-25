@@ -97,4 +97,4 @@ jobs:
         files: |
           **/*.*
     - name: List files
-      run: ls -s ${{ github.workspace }}/artifacts
+      run: ls -s ${{ github.workspace }}/artifacts/OctopusSamples.OctoPetshop.ShoppingCartService
