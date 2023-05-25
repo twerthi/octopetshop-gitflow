@@ -235,8 +235,8 @@ step "smoke-test-api-endpoints" {
             Octopus.Action.Template.Id = "ActionTemplates-2064"
             Octopus.Action.Template.Version = "9"
             SmokeTest.PortalUri = "#{OPS.Web.Portal.URL}"
-            SmokeTest.ProductUri = "#{OPS.ProductService.URL}"
-            SmokeTest.ShoppingCartUri = "#{OPS.ShoppingCartService.URL}"
+            SmokeTest.ProductUri = "#{AppSettings:ProductServiceBaseUrl}"
+            SmokeTest.ShoppingCartUri = "#{AppSettings:ShoppingCartServiceBaseUrl}"
         }
         worker_pool_variable = ""
     }
