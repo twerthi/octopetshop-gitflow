@@ -93,7 +93,7 @@ jobs:
         package_id: "OctoPetShop.ShoppingCartService"
         version: "${{ steps.version-generator.outputs.version }}-gitflow"
         output_folder: "${{ github.workspace }}/artifacts"
-        base_path: "${{ github.workspace }}/artifacts/OctopusSamples.OctoPetShop.ProductService"
+        base_path: "${{ github.workspace }}/artifacts/OctopusSamples.OctoPetShop.ShoppingCartService"
         files: |
           **/*.*
     - name: List files
